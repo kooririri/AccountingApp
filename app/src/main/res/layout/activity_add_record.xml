@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayou xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -149,18 +150,19 @@
                     android:layout_weight="2"/>
                 <ImageButton
                     android:id="@+id/keyboard_backspace"
-
+                    app:srcCompat="@drawable/baseline_backspace_24"
                     android:background="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <ImageButton
                     android:id="@+id/keyboard_done"
-
+                    android:src="@drawable/baseline_check_circle_outline_24"
                     android:background="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    tools:ignore="VectorDrawableCompat" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -189,7 +191,7 @@
             android:textStyle="normal"
             android:text="Book"
             android:layout_margin="10dp"
-
+            android:background="@drawable/bg_edit_text"
             android:layout_below="@+id/textView_amount"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
@@ -203,4 +205,4 @@
         </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
-</RelativeLayou>
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package local.hal.st31.android.accountingapp;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,5 +26,14 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(pagerAdapter.getLastIndex());
+
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),AddRecordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
