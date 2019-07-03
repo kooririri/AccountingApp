@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.TreeMap;
@@ -26,6 +27,7 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
 
     public RecordDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        Log.d("pxl","DatabaseHelper inited");
     }
 
     @Override

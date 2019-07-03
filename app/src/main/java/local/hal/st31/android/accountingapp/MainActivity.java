@@ -35,5 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        GlobalUtil.getInstance().setContext(getApplicationContext());
+
     }
 }
