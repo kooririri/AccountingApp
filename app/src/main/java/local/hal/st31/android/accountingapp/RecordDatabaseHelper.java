@@ -51,6 +51,8 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         values.put("date",bean.getDate());
         values.put("time",bean.getTimeStamp());
         db.insert(DB_NAME,null,values);
+        values.clear();
+        Log.d("pxl",bean.getUuid() + "added");
     }
 
     public void removeRecord(String uuid){

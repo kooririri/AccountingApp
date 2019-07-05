@@ -2,14 +2,28 @@ package local.hal.st31.android.accountingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class AddRecordActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddRecordActivity extends AppCompatActivity implements View.OnClickListener,CategoryRecyclerAdapter.onCategoryClickListener{
+
+    private EditText editText;
     private TextView amountText;
     private String userInput="";
+
+    private CategoryRecyclerAdapter adapter;
+    private RecyclerView recyclerView;
+
+    private String category ="General";
+    private RecordBean.RecordType type = RecordBean.RecordType.RECORD_TYPE_EXPENSE;
+    private String remark = category;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +40,22 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.keyboard_zero).setOnClickListener(this);
 
         amountText = findViewById(R.id.textView_amount);
+        editText = findViewById(R.id.editText);
+        editText.setText(remark);
 
         handleDot();
         handleTypeChange();
         handleBackspace();
         handleDone();
 
+        adapter = new CategoryRecyclerAdapter(getApplicationContext());
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(adapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),4);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        adapter.notifyDataSetChanged();
 
+        adapter.setOnCategoryClickListener(this);
     }
 
     private void handleDot(){
@@ -53,7 +76,13 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onClick(View v) {
-                Log.d("pxl","type");
+                if(type == RecordBean.RecordType.RECORD_TYPE_EXPENSE){
+                    type = RecordBean.RecordType.RECORD_TYPE_INCOME;
+                }else{
+                    type = RecordBean.RecordType.RECORD_TYPE_EXPENSE;
+                }
+                adapter.changeType(type);
+                category = adapter.getSelected();
             }
         });
     }
@@ -81,9 +110,21 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
                 if(!userInput.equals("")){
                     double amount = Double.valueOf(userInput);
-                    Log.d("pxl",amount+"");
-                }else{
 
+                    RecordBean record = new RecordBean();
+                        record.setCategory(category);
+                    record.setRemark(editText.getText().toString());
+                    record.setAmount(amount);
+                    if(type == RecordBean.RecordType.RECORD_TYPE_EXPENSE){
+                        record.setType(1);
+                    }else{
+                        record.setType(2);
+                    }
+
+                    GlobalUtil.getInstance().databaseHelper.addRecord(record);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"金額を入力してください",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -119,5 +160,11 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
                 amountText.setText(userInput + ".00");
             }
         }
+    }
+
+    @Override
+    public void onClick(String category) {
+        this.category = category;
+        editText.setText(category);
     }
 }
