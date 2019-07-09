@@ -26,12 +26,7 @@ public class MainFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public MainFragment(String date){
         this.date = date;
-
-        records.add(new RecordBean());
-        records.add(new RecordBean());
-        records.add(new RecordBean());
-        records.add(new RecordBean());
-
+        records = GlobalUtil.getInstance().databaseHelper.readRecords(date);
     }
     @Nullable
     @Override
@@ -49,6 +44,13 @@ public class MainFragment extends Fragment {
         listViewAdapter.setData(records);
         listView.setAdapter(listViewAdapter);
 
+        if(listViewAdapter.getCount() > 0){
+            rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
+        }
+    }
+    public void reload(){
+        records = GlobalUtil.getInstance().databaseHelper.readRecords(date);
+        listViewAdapter.setData(records);
         if(listViewAdapter.getCount() > 0){
             rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
         }

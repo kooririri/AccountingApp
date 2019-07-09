@@ -112,7 +112,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
                     double amount = Double.valueOf(userInput);
 
                     RecordBean record = new RecordBean();
-                        record.setCategory(category);
+                    record.setCategory(category);
                     record.setRemark(editText.getText().toString());
                     record.setAmount(amount);
                     if(type == RecordBean.RecordType.RECORD_TYPE_EXPENSE){

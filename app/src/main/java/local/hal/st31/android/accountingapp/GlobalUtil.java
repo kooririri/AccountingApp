@@ -81,6 +81,20 @@ public class GlobalUtil {
     private static String[] earnTitle = {"General", "Reimburse", "Salary","RedPocket","Part-time", "Bonus","Investment"};
 
 
+    public int getResourceIcon(String category){
+        for(CategoryResBean res : costRes){
+            if(res.title.equals(category)){
+                return res.resWhite;
+            }
+        }
+        for(CategoryResBean res : earnRes){
+            if(res.title.equals(category)){
+                return res.resWhite;
+            }
+        }
+        return costRes.get(0).resWhite;
+    }
+
     public Context getContext() {
         return context;
     }

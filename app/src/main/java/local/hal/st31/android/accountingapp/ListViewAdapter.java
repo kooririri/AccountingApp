@@ -72,7 +72,17 @@ class ViewHolder{
         amountTV = itemView.findViewById(R.id.textView_amount);
         categoryIcon = itemView.findViewById(R.id.imageView_category);
 
-//        remarkTV.setText(records.getRemark());
+        //画面部品に値を割り当てる
+        remarkTV.setText(records.getRemark());
 
+        if(records.getType() == 1){
+            amountTV.setText("- " + records.getAmount());
+        }else{
+            amountTV.setText("+ " + records.getAmount());
+        }
+
+        timeTV.setText(DateUtil.getFormattedTime(records.getTimeStamp()));
+
+        categoryIcon.setImageResource(GlobalUtil.getInstance().getResourceIcon(records.getCategory()));
     }
 }

@@ -17,12 +17,24 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void initFragment(){
-        dates.add("2019-06-28");
-        dates.add("2019-06-29");
-        dates.add("2019-06-30");
+
+        dates = GlobalUtil.getInstance().databaseHelper.getAvailableDate();
+
+        if(!dates.contains(DateUtil.getFormattedDate())){
+            dates.addLast(DateUtil.getFormattedDate());
+        }
         for(String date : dates){
             MainFragment fragment = new MainFragment(date);
             fragments.add(fragment);
+        }
+    }
+
+    /**
+     *
+     */
+    public void reload(){
+        for(MainFragment fragment:fragments){
+            fragment.reload();
         }
     }
 
