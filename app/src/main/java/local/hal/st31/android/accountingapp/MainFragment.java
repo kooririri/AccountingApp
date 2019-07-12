@@ -55,4 +55,14 @@ public class MainFragment extends Fragment {
             rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
         }
     }
+
+    public int getTotalCost(){
+        double totalCost = 0;
+        for (RecordBean record: records){
+            if (record.getType()==1){
+                totalCost+= record.getAmount();
+            }
+        }
+        return (int)totalCost;
+    }
 }

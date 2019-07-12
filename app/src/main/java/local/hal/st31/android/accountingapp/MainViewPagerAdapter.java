@@ -47,8 +47,16 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
         return fragments.get(i);
     }
 
+    public String getDateStr(int index){
+        return dates.get(index);
+    }
+
     @Override
     public int getCount() {
         return fragments.size();
+    }
+
+    public int getTotalCost(int index){
+        return fragments.get(index).getTotalCost();
     }
 }
