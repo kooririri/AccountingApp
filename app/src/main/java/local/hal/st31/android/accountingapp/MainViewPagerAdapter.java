@@ -59,4 +59,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     public int getTotalCost(int index){
         return fragments.get(index).getTotalCost();
     }
+    public int getTotalIncome(int index){
+        return fragments.get(index).getTotalIncome();
+    }
 }

@@ -82,6 +82,16 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         return (int)totalCost;
     }
 
+    public int getTotalIncome(){
+        double totalIncome = 0;
+        for(RecordBean record : records){
+            if(record.getType() == 2){
+                totalIncome += record.getAmount();
+            }
+        }
+        return (int) totalIncome;
+    }
+
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         showDialog(position);

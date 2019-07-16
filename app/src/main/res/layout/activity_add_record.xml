@@ -7,7 +7,7 @@
     tools:context=".AddRecordActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/keyboard_wrapper"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -172,7 +172,7 @@
 
     <RelativeLayout
         android:background="@color/colorPrimary"
-        android:layout_above="@id/linearLayout"
+        android:layout_above="@id/keyboard_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

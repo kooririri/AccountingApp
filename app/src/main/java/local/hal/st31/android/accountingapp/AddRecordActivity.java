@@ -23,7 +23,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView recyclerView;
     private CategoryRecyclerAdapter recyclerAdapter;
 
-    private String category ="General";
+    private String category ="一般";
     private RecordBean.RecordType type = RecordBean.RecordType.RECORD_TYPE_EXPENSE;
     private String remark = category;
 

@@ -11,16 +11,18 @@ import android.widget.TextView;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
-import java.util.LinkedList;
-
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     private ViewPager viewPager;
     private MainViewPagerAdapter pagerAdapter;
-    private TickerView amountText;
+    private TickerView expenseAmountText;
+    private TickerView incomeAmountText;
     private TextView dateText;
     private int currentPagerPosition = 0;
+    private final static int BUTTON_CLICK = 1;
+    private final static int BUTTON_LONG_CLICK = 2;
+
 
 
     @Override
@@ -30,10 +32,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         GlobalUtil.getInstance().setContext(getApplicationContext());
         GlobalUtil.getInstance().mainActivity = this;
+        //消除阴影
         getSupportActionBar().setElevation(0);
 
-        amountText = (TickerView)findViewById(R.id.amount_text);
-        amountText.setCharacterLists(TickerUtils.provideNumberList());
+        expenseAmountText = (TickerView)findViewById(R.id.expense_amount_text);
+        expenseAmountText.setCharacterLists(TickerUtils.provideNumberList());
+        incomeAmountText = (TickerView)findViewById(R.id.income_amount_text);
+        incomeAmountText.setCharacterLists(TickerUtils.provideNumberList());
         dateText=(TextView) findViewById(R.id.date_text);
 
         viewPager = findViewById(R.id.view_pager);
@@ -41,19 +46,33 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         pagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(this);
-        //默认跳到今天的页面
+        //本日の画面を最初に表示
         viewPager.setCurrentItem(pagerAdapter.getLastIndex());
 
+        handleFab();
+        updateHeader();
+    }
+
+    private void handleFab(){
+        //+をクリックすると
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),AddRecordActivity.class);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent,BUTTON_CLICK);
             }
         });
 
-        updateHeader();
+        //+を長押しすると
+        findViewById(R.id.fab).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddCustomRecordActivity.class);
+                startActivityForResult(intent,BUTTON_LONG_CLICK);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -76,8 +95,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     public void updateHeader(){
-        String amount = String.valueOf(pagerAdapter.getTotalCost(currentPagerPosition));
-        amountText.setText(amount);
+        String expenseAmount = String.valueOf(pagerAdapter.getTotalCost(currentPagerPosition));
+        expenseAmountText.setText(expenseAmount);
+        String incomeAmount = String.valueOf(pagerAdapter.getTotalIncome(currentPagerPosition));
+        incomeAmountText.setText(incomeAmount);
         String date = pagerAdapter.getDateStr(currentPagerPosition);
         dateText.setText(DateUtil.getWeekDay(date));
     }
