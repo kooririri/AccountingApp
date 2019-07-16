@@ -20,25 +20,28 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private MainViewPagerAdapter pagerAdapter;
     private TickerView amountText;
     private TextView dateText;
+    private int currentPagerPosition = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecordBean rb = new RecordBean();
-        getSupportActionBar().setElevation(0);
+
         GlobalUtil.getInstance().setContext(getApplicationContext());
+        GlobalUtil.getInstance().mainActivity = this;
+        getSupportActionBar().setElevation(0);
 
         amountText = (TickerView)findViewById(R.id.amount_text);
         amountText.setCharacterLists(TickerUtils.provideNumberList());
         dateText=(TextView) findViewById(R.id.date_text);
-
 
         viewPager = findViewById(R.id.view_pager);
         pagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(this);
+        //默认跳到今天的页面
         viewPager.setCurrentItem(pagerAdapter.getLastIndex());
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
@@ -49,12 +52,15 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 startActivityForResult(intent,1);
             }
         });
+
+        updateHeader();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         pagerAdapter.reload();
+        updateHeader();
     }
 
 
@@ -65,9 +71,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int i) {
-        String amount = String.valueOf(pagerAdapter.getTotalCost(i));
+        currentPagerPosition = i;
+        updateHeader();
+    }
+
+    public void updateHeader(){
+        String amount = String.valueOf(pagerAdapter.getTotalCost(currentPagerPosition));
         amountText.setText(amount);
-        String date = pagerAdapter.getDateStr(i);
+        String date = pagerAdapter.getDateStr(currentPagerPosition);
         dateText.setText(DateUtil.getWeekDay(date));
     }
 

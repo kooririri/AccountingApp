@@ -106,9 +106,11 @@
                 <TableRow android:layout_weight="1">
 
                     <Button
+                        android:id="@+id/keyboard_clear"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:text="C"
                         android:background="@android:color/white"
                         />
 

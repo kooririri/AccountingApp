@@ -5,10 +5,12 @@ import android.content.Context;
 import java.util.LinkedList;
 
 public class GlobalUtil {
+
     private static GlobalUtil instance;
 
     public Context context;
     public RecordDatabaseHelper databaseHelper;
+    public MainActivity mainActivity;
 
     public LinkedList<CategoryResBean> costRes = new LinkedList<>();
     public LinkedList<CategoryResBean> earnRes = new LinkedList<>();
@@ -117,9 +119,16 @@ public class GlobalUtil {
             res.resWhite = earnIconRes[i];
             earnRes.add(res);
         }
+        setRes(costRes, earnRes);
     }
+
+    public void setRes(LinkedList<CategoryResBean> costRes, LinkedList<CategoryResBean> earnRes){
+        this.costRes = costRes;
+        this.earnRes = earnRes;
+    }
+
     public static GlobalUtil getInstance() {
-        if(instance ==null){
+        if(instance == null){
             instance = new GlobalUtil();
         }
         return instance;

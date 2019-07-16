@@ -1,20 +1,27 @@
 package local.hal.st31.android.accountingapp;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.LinkedList;
 
 @SuppressLint("ValidFragment")
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements AdapterView.OnItemLongClickListener {
 
     private View rootView;
     private TextView textView;
@@ -47,13 +54,22 @@ public class MainFragment extends Fragment {
         if(listViewAdapter.getCount() > 0){
             rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
         }
+        listView.setOnItemLongClickListener(this);
     }
     public void reload(){
         records = GlobalUtil.getInstance().databaseHelper.readRecords(date);
+        if (listViewAdapter==null){
+            listViewAdapter = new ListViewAdapter(getActivity().getApplicationContext());
+        }
+
         listViewAdapter.setData(records);
+        //再次绑定Adapter，这个不写的话点击删除后画面显示错误
+        listView.setAdapter(listViewAdapter);
+
         if(listViewAdapter.getCount() > 0){
             rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
         }
+
     }
 
     public int getTotalCost(){
@@ -64,5 +80,37 @@ public class MainFragment extends Fragment {
             }
         }
         return (int)totalCost;
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        showDialog(position);
+        return false;
+    }
+
+    private void showDialog(final int index){
+        final String[] options = {"削除","編集"};
+        final RecordBean selectedRecord = records.get(index);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0){
+                    String uuid = selectedRecord.getUuid();
+                    GlobalUtil.getInstance().databaseHelper.removeRecord(uuid);
+                    Log.d("remove",index + "removed");
+                    reload();
+                    GlobalUtil.getInstance().mainActivity.updateHeader();
+                } else if(which == 1){
+                    Intent intent = new Intent(getActivity(),AddRecordActivity.class);
+                    Bundle extra = new Bundle();
+                    extra.putSerializable("record",selectedRecord);
+                    intent.putExtras(extra);
+                    startActivityForResult(intent,1);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel",null);
+        builder.create().show();
     }
 }
