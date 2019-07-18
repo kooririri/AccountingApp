@@ -58,18 +58,17 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
     }
     public void reload(){
         records = GlobalUtil.getInstance().databaseHelper.readRecords(date);
-        if (listViewAdapter==null){
-            listViewAdapter = new ListViewAdapter(getActivity().getApplicationContext());
+        if(this.isAdded()){
+            if (listViewAdapter == null){
+                listViewAdapter = new ListViewAdapter(getActivity().getApplicationContext());
+            }
+            listViewAdapter.setData(records);
+            //再次绑定Adapter，这个不写的话点击删除后画面显示错误
+            listView.setAdapter(listViewAdapter);
+            if(listViewAdapter.getCount() > 0){
+                rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
+            }
         }
-
-        listViewAdapter.setData(records);
-        //再次绑定Adapter，这个不写的话点击删除后画面显示错误
-        listView.setAdapter(listViewAdapter);
-
-        if(listViewAdapter.getCount() > 0){
-            rootView.findViewById(R.id.no_record_layout).setVisibility(View.INVISIBLE);
-        }
-
     }
 
     public int getTotalCost(){

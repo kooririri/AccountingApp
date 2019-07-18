@@ -96,7 +96,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
                 userInput="";
                 updateAmountText();
-                Log.d("znemeshi",userInput);
             }
         });
     }
@@ -177,7 +176,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         }else{
             userInput += input;
         }
-        Log.d("znemeshi",userInput);
         updateAmountText();
     }
     private void updateAmountText() {
