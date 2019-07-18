@@ -1,6 +1,10 @@
 package local.hal.st31.android.accountingapp;
 
 import android.content.Context;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 
@@ -132,5 +136,10 @@ public class GlobalUtil {
             instance = new GlobalUtil();
         }
         return instance;
+    }
+
+    public void handleTextViewStyle(TextView textView){
+        textView.setGravity(Gravity.END|Gravity.CENTER_VERTICAL);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textView.getTextSize() - 10);
     }
 }
