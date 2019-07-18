@@ -17,7 +17,7 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_custom_record);
-        //aa
+
         handleView();
         handleListener();
         handleBackspace();
