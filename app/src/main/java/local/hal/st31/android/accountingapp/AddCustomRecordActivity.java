@@ -2,17 +2,23 @@ package local.hal.st31.android.accountingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
 public class AddCustomRecordActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String userInput = "";
     private TextView amountText;
-
+    private MaterialCalendarView calendarView;
+    private String selectedDate;
+    private TextView dateLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,7 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
 
     private void handleView(){
         amountText = findViewById(R.id.custom_add_amount_text);
+        dateLayout = findViewById(R.id.selected_date_layout);
     }
 
     private void handleListener(){
@@ -72,6 +79,13 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
         } else {
             amountText.setText(userInput);
         }
+    }
+
+    private void handleCalendar(){
+        calendarView.setSelectedDate(CalendarDay.today());
+        selectedDate = DateUtil.getFormattedDate();
+        dateLayout.setText(selectedDate);
+
     }
 
     @Override
