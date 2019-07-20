@@ -29,6 +29,7 @@ dependencies {
     implementation 'com.robinhood.ticker:ticker:2.0.1'
     //calendar view
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
     //nice-spinner
     implementation 'com.github.arcadefire:nice-spinner:1.4.3'
     testImplementation 'junit:junit:4.12'

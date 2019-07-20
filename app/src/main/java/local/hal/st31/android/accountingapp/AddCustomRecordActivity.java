@@ -1,5 +1,6 @@
 package local.hal.st31.android.accountingapp;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,14 @@ import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AddCustomRecordActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -19,6 +28,12 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
     private MaterialCalendarView calendarView;
     private String selectedDate;
     private TextView dateLayout;
+    private NiceSpinner niceSpinner;
+    private List<String> dataSet;
+    private RecordBean.RecordType type = RecordBean.RecordType.RECORD_TYPE_EXPENSE;
+    private String selectedCategory = "一般";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +43,15 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
         handleListener();
         handleBackspace();
         handleClear();
+        handleCalendar();
+        handleSpinner(type);
+        handleCategoryChange();
+
     }
 
     private void handleView(){
         amountText = findViewById(R.id.custom_add_amount_text);
+        calendarView = findViewById(R.id.calendarView);
         dateLayout = findViewById(R.id.selected_date_layout);
     }
 
@@ -85,7 +105,43 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
         calendarView.setSelectedDate(CalendarDay.today());
         selectedDate = DateUtil.getFormattedDate();
         dateLayout.setText(selectedDate);
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                selectedDate = date.getDate().toString();
+                dateLayout.setText(selectedDate);
+            }
+        });
+    }
 
+    private void handleCategoryChange(){
+        findViewById(R.id.c_keyboard_category_change).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(type == RecordBean.RecordType.RECORD_TYPE_EXPENSE){
+                    type = RecordBean.RecordType.RECORD_TYPE_INCOME;
+                }else{
+                    type = RecordBean.RecordType.RECORD_TYPE_EXPENSE;
+                }
+                handleSpinner(type);
+            }
+        });
+    }
+
+    private void handleSpinner(RecordBean.RecordType type){
+        niceSpinner = findViewById(R.id.custom_add_category_spinner);
+        if(type == RecordBean.RecordType.RECORD_TYPE_EXPENSE){
+            dataSet =  new LinkedList<>(Arrays.asList(GlobalUtil.costTitle));
+        }else{
+            dataSet =  new LinkedList<>(Arrays.asList(GlobalUtil.earnTitle));
+        }
+        niceSpinner.attachDataSource(dataSet);
+        niceSpinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
+            @Override
+            public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
+                selectedCategory = parent.getItemAtPosition(position).toString();
+            }
+        });
     }
 
     @Override
