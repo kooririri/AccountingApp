@@ -63,7 +63,7 @@ public class GlobalUtil {
             R.drawable.icon_medical,
             R.drawable.icon_transfer
     };
-    public static String[] costTitle = {"一般", "食事", "飲料","おかず", "買い物", "個人的","娯楽","映画", "ソーシャル", "交通",
+    public static String[] costTitle = {"一般支出", "食事", "飲料","おかず", "買い物", "個人的","娯楽","映画", "ソーシャル", "交通",
             "アプリ","携帯料金","ソフト","ギフト", "家賃", "旅行","入場券","書籍", "薬品","振込"};
 
     private static int[] earnIconRes = {
@@ -84,7 +84,7 @@ public class GlobalUtil {
             R.drawable.icon_bonus,
             R.drawable.icon_investment};
 
-    public static String[] earnTitle = {"一般", "払い戻し", "給料","年玉","アルバイト", "ボーナス","投資"};
+    public static String[] earnTitle = {"一般収入", "払い戻し", "給料","年玉","アルバイト", "ボーナス","投資"};
 
 
     public int getResourceIcon(String category){

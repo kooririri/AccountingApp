@@ -37,4 +37,8 @@ public class DateUtil {
         int index = calendar.get(Calendar.DAY_OF_WEEK)-1;
         return  weekdays[index];
     }
+
+    public static boolean isSelectedDateBeforeToday(String selectedDate,String today){
+        return strToDate(selectedDate).before(strToDate(today));
+    }
 }

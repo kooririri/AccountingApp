@@ -78,8 +78,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        pagerAdapter.reload();
-        updateHeader();
+        if(requestCode == BUTTON_CLICK){
+            refreshSelf();
+//            pagerAdapter.reload();
+//            updateHeader();
+        }
+        if(requestCode == BUTTON_LONG_CLICK){
+            refreshSelf();
+//            pagerAdapter.reload();
+//            updateHeader();
+        }
     }
 
 
@@ -106,5 +114,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+    /**
+     * 自分自身をリフレッシュするメソッド。
+     * AddCustomRecordActivityで新しいfragmentを生成すると、リスタートしなくても表示できる。
+     */
+    public void refreshSelf(){
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();//自分自身を殺す
+        overridePendingTransition(0, 0);
     }
 }
