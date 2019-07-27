@@ -35,7 +35,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         //去阴影
-        getSupportActionBar().setElevation(0);
+//        getSupportActionBar().setElevation(0);
         findViewById(R.id.keyboard_one).setOnClickListener(this);
         findViewById(R.id.keyboard_two).setOnClickListener(this);
         findViewById(R.id.keyboard_three).setOnClickListener(this);

@@ -42,6 +42,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         initView();
         return rootView;
     }
+
     private void initView(){
         textView = rootView.findViewById(R.id.day_text);
         listView = rootView.findViewById(R.id.listView);
@@ -56,6 +57,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
         }
         listView.setOnItemLongClickListener(this);
     }
+
     public void reload(){
         records = GlobalUtil.getInstance().databaseHelper.readRecords(date);
         if(this.isAdded()){

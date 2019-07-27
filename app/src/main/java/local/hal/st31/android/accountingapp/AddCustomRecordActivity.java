@@ -172,7 +172,6 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
                     record.setDate(selectedDate);
                     record.setAmount(amount);
                     GlobalUtil.getInstance().databaseHelper.addRecord(record);
-                    Log.d("PXLL", "onClick: record details:" + record.getUuid() +"    "+ record.getDate() +"   "+ record.getAmount());
                     finish();
                 }
                 else if(userInput.equals("")||userInput.equals("0")){

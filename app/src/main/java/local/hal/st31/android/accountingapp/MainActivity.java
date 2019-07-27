@@ -3,10 +3,14 @@ package local.hal.st31.android.accountingapp;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+
 
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private int currentPagerPosition = 0;
     private final static int BUTTON_CLICK = 1;
     private final static int BUTTON_LONG_CLICK = 2;
+    private Toolbar toolbar;
 
 
 
@@ -33,13 +38,15 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         GlobalUtil.getInstance().setContext(getApplicationContext());
         GlobalUtil.getInstance().mainActivity = this;
         //消除阴影
-        getSupportActionBar().setElevation(0);
+//        getSupportActionBar().setElevation(0);
 
         expenseAmountText = (TickerView)findViewById(R.id.expense_amount_text);
         expenseAmountText.setCharacterLists(TickerUtils.provideNumberList());
         incomeAmountText = (TickerView)findViewById(R.id.income_amount_text);
         incomeAmountText.setCharacterLists(TickerUtils.provideNumberList());
         dateText=(TextView) findViewById(R.id.date_text);
+        initView();
+
 
         viewPager = findViewById(R.id.view_pager);
         pagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
@@ -51,6 +58,22 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         handleFab();
         updateHeader();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+    private void initView() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_house_white);
+        }
     }
 
     private void handleFab(){
@@ -104,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     public void updateHeader(){
         String expenseAmount = String.valueOf(pagerAdapter.getTotalCost(currentPagerPosition));
-        expenseAmountText.setText(expenseAmount);
+        expenseAmountText.setText("- " + expenseAmount);
         String incomeAmount = String.valueOf(pagerAdapter.getTotalIncome(currentPagerPosition));
-        incomeAmountText.setText(incomeAmount);
+        incomeAmountText.setText("+ " + incomeAmount);
         String date = pagerAdapter.getDateStr(currentPagerPosition);
         dateText.setText(DateUtil.getWeekDay(date));
     }
