@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -64,8 +65,24 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                
+                onBackPressed();
+                break;
+            case R.id.action_statistic:
+                Intent intent1 = new Intent(getApplicationContext(),StatisticActivity.class);
+                startActivity(intent1);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

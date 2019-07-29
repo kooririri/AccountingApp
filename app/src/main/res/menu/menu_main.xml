@@ -5,7 +5,7 @@
         android:id="@+id/action_statistic"
         android:title="@string/action_title_statistic"
         android:icon="@drawable/baseline_insert_chart_24"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         />
 
     <item

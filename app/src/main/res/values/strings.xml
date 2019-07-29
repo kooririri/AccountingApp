@@ -2,4 +2,10 @@
     <string name="app_name">家計簿</string>
     <string name="action_title_statistic">図表化</string>
     <string name="action_title_search">検索</string>
+    <string name="general_statistic">今月家計情報</string>
+    <string name="statistic_total_expense_text">毎月総支出</string>
+    <string name="statistic_total_income_text">毎月総収入</string>
+    <string name="statistic_category_expense_text">支出割合</string>
+    <string name="statistic_category_income_text">収入割合</string>
+    <string name="more">その他</string>
 </resources>

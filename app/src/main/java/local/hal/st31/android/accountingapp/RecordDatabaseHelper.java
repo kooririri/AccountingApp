@@ -119,4 +119,41 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return dates;
     }
+
+    /**
+     * 月ごと総支出を算出メソッド。
+     * @param thisMonth 月
+     * @return 総支出
+     */
+    public int getTotalExpendThisMonth(String thisMonth){
+        int totalExpendThisMonth = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String date = DateUtil.getFormattedDate();
+        String firstDayOfMonth = date.split("-")[0] + "-" + thisMonth + "-01";
+        String lastDayOfMonth = date.split("-")[0] + "-" + thisMonth + "-31";
+        String sql = "SELECT SUM(amount) FROM Record WHERE date >= ? AND date <= ? and type = 1";
+        Cursor cursor = db.rawQuery(sql,new String[]{firstDayOfMonth,lastDayOfMonth});
+        if(cursor.moveToFirst()){
+            do{
+                totalExpendThisMonth = cursor.getInt(0);
+            }while(cursor.moveToNext());
+        }
+        return totalExpendThisMonth;
+    }
+
+    public int getTotalIncomeThisMonth(String thisMonth){
+        int totalIncomeThisMonth = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String date = DateUtil.getFormattedDate();
+        String firstDayOfMonth = date.split("-")[0] + "-" + thisMonth + "-01";
+        String lastDayOfMonth = date.split("-")[0] + "-" + thisMonth + "-31";
+        String sql = "SELECT SUM(amount) FROM Record WHERE date >= ? AND date <= ? and type = 2";
+        Cursor cursor = db.rawQuery(sql,new String[]{firstDayOfMonth,lastDayOfMonth});
+        if(cursor.moveToFirst()){
+            do{
+                totalIncomeThisMonth = cursor.getInt(0);
+            }while(cursor.moveToNext());
+        }
+        return totalIncomeThisMonth;
+    }
 }
