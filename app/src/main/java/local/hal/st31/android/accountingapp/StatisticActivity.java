@@ -28,23 +28,23 @@ public class StatisticActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//
-//        findViewById(R.id.statistic_total_income).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(),StatisticTotalIncomeActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        findViewById(R.id.statistic_category_expense).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(),StatisticCategoryExpenseActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
+
+        findViewById(R.id.statistic_total_income).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),StatisticTotalIncomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.statistic_category_expense).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),StatisticCategoryExpenseActivity.class);
+                startActivity(intent);
+            }
+        });
+
 //        findViewById(R.id.statistic_category_income).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

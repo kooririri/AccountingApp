@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StatisticActivity"></activity>
+        <activity android:name=".StatisticCategoryExpenseActivity"></activity>
+        <activity android:name=".StatisticTotalIncomeActivity" />
+        <activity android:name=".StatisticActivity" />
         <activity android:name=".AddCustomRecordActivity" />
-        <activity android:name=".StatisticTotalExpenseActivity"/>
+        <activity android:name=".StatisticTotalExpenseActivity" />
         <activity
             android:name=".AddRecordActivity"
             android:windowSoftInputMode="adjustPan" />

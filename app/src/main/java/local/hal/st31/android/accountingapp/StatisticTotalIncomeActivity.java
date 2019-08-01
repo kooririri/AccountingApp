@@ -1,8 +1,7 @@
 package local.hal.st31.android.accountingapp;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.anychart.AnyChart;
@@ -20,15 +19,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-class StatisticTotalExpenseActivity extends AppCompatActivity {
+public class StatisticTotalIncomeActivity extends AppCompatActivity {
 
     private LinkedList<String> availableMonths = new LinkedList<>();
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_common);
-
 
         AnyChartView anyChartView = findViewById(R.id.any_chart_view);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
@@ -38,13 +35,12 @@ class StatisticTotalExpenseActivity extends AppCompatActivity {
 
         availableMonths = GlobalUtil.getInstance().databaseHelper.getAvailableMonth();
         for(int i = 0 ; i < availableMonths.size() ; i++){
-            data.add(new ValueDataEntry(DateUtil.convertSqlMonthToString(availableMonths.get(i)),GlobalUtil.getInstance().databaseHelper.getTotalExpendThisMonth(availableMonths.get(i))));
+            data.add(new ValueDataEntry(DateUtil.convertSqlMonthToString(availableMonths.get(i)),GlobalUtil.getInstance().databaseHelper.getTotalIncomeThisMonth(availableMonths.get(i))));
         }
 
         if(data.isEmpty()){
             Toast.makeText(getApplicationContext(),R.string.alert_no_data,Toast.LENGTH_SHORT).show();
         }
-
 
         Column column = cartesian.column(data);
 
@@ -57,7 +53,7 @@ class StatisticTotalExpenseActivity extends AppCompatActivity {
                 .format("${%Value}{groupsSeparator: }");
 
         cartesian.animation(true);
-        cartesian.title("今年支出割合図");
+        cartesian.title("今年収入割合図");
 
         cartesian.yScale().minimum(0d);
 
@@ -67,9 +63,11 @@ class StatisticTotalExpenseActivity extends AppCompatActivity {
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
         cartesian.xAxis(0).title("ヶ月");
-        cartesian.yAxis(0).title("支出金額");
+        cartesian.yAxis(0).title("収入金額");
 
         anyChartView.setChart(cartesian);
 
     }
+
+
 }

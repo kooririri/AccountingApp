@@ -156,4 +156,21 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         }
         return totalIncomeThisMonth;
     }
+
+    public LinkedList<String> getAvailableMonth(){
+        LinkedList<String> months = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT * FROM record ORDER BY date ASC",new String[]{});
+        if(cursor.moveToFirst()){
+            do{
+                String month = cursor.getString(cursor.getColumnIndex("date")).split("-")[1];
+                if(!months.contains(month)){
+                    months.add(month);
+                }
+            }
+            while(cursor.moveToNext());
+        }
+        cursor.close();
+        return months;
+    }
 }

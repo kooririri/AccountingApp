@@ -174,6 +174,7 @@ public class AddCustomRecordActivity extends AppCompatActivity implements View.O
                     GlobalUtil.getInstance().databaseHelper.addRecord(record);
                     finish();
                 }
+                //TODO DateUtil.isSelectedDateBeforeToday refactor
                 else if(userInput.equals("")||userInput.equals("0")){
                     Toast.makeText(getApplicationContext(),"正しい金額を入力してください",Toast.LENGTH_SHORT).show();
                 }else if(!DateUtil.isSelectedDateBeforeToday(selectedDate,DateUtil.getFormattedDate())){

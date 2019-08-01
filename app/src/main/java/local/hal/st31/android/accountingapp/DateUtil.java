@@ -41,4 +41,24 @@ public class DateUtil {
     public static boolean isSelectedDateBeforeToday(String selectedDate,String today){
         return strToDate(selectedDate).before(strToDate(today));
     }
+
+    public static String convertSqlMonthToString(String sqlMonth){
+        String[] months={"1月", "2月", "3月", "4月", "5月", "6月","7月", "8月","9月","10月", "11月", "12月"};
+        String  convertedMonth = "error";
+        switch (sqlMonth){
+            case "01": return months[0];
+            case "02": return months[1];
+            case "03": return months[2];
+            case "04": return months[3];
+            case "05": return months[4];
+            case "06": return months[5];
+            case "07": return months[6];
+            case "08": return months[7];
+            case "09": return months[8];
+            case "10": return months[9];
+            case "11": return months[10];
+            case "12": return months[11];
+        }
+        return convertedMonth;
+    }
 }
