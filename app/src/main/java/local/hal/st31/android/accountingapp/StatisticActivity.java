@@ -45,13 +45,13 @@ public class StatisticActivity extends AppCompatActivity {
             }
         });
 
-//        findViewById(R.id.statistic_category_income).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(),StatisticCategoryIncomeActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        findViewById(R.id.statistic_category_income).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),StatisticCategoryIncomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         findViewById(R.id.general_statistic).setOnClickListener(new View.OnClickListener() {
             @Override

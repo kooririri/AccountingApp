@@ -17,7 +17,7 @@ import com.anychart.enums.LegendLayout;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StatisticCategoryExpenseActivity extends AppCompatActivity {
+public class StatisticCategoryIncomeActivity extends AppCompatActivity {
 
     LinkedList<String > categoryOfThisMonth = new LinkedList<>();
     @Override
@@ -33,17 +33,16 @@ public class StatisticCategoryExpenseActivity extends AppCompatActivity {
         pie.setOnClickListener(new ListenersInterface.OnClickListener(new String[]{"x", "value"}) {
             @Override
             public void onClick(Event event) {
-                Toast.makeText(StatisticCategoryExpenseActivity.this, event.getData().get("x") + ":" + event.getData().get("value"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(StatisticCategoryIncomeActivity.this, event.getData().get("x") + ":" + event.getData().get("value"), Toast.LENGTH_SHORT).show();
             }
         });
-
         List<DataEntry> data = new LinkedList<>();
         String thisYear = GlobalUtil.getInstance().databaseHelper.getThisYear();
         String thisMonth = GlobalUtil.getInstance().databaseHelper.getThisMonth();
-        categoryOfThisMonth = GlobalUtil.getInstance().databaseHelper.getInputtedCategories(thisYear,thisMonth,"1");
+        categoryOfThisMonth = GlobalUtil.getInstance().databaseHelper.getInputtedCategories(thisYear,thisMonth,"2");
 
         for(int i = 0 ; i < categoryOfThisMonth.size() ; i++){
-            data.add(new ValueDataEntry(categoryOfThisMonth.get(i),GlobalUtil.getInstance().databaseHelper.getTotalExpenseOfCategoryThisMonth(thisYear,thisMonth,categoryOfThisMonth.get(i))));
+            data.add(new ValueDataEntry(categoryOfThisMonth.get(i),GlobalUtil.getInstance().databaseHelper.getTotalIncomeOfCategoryThisMonth(thisYear,thisMonth,categoryOfThisMonth.get(i))));
         }
         if (data.isEmpty()){
             Toast.makeText(getApplicationContext(),R.string.alert_no_data,Toast.LENGTH_SHORT).show();
@@ -52,7 +51,7 @@ public class StatisticCategoryExpenseActivity extends AppCompatActivity {
 
         pie.data(data);
 
-        pie.title("カテゴリごとの支出割合" );
+        pie.title("カテゴリごとの収入割合" );
 
         pie.labels().position("outside");
 
@@ -67,5 +66,7 @@ public class StatisticCategoryExpenseActivity extends AppCompatActivity {
                 .align(Align.CENTER);
 
         anyChartView.setChart(pie);
+
+
     }
 }

@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class RecordDatabaseHelper extends SQLiteOpenHelper {
@@ -141,6 +143,11 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         return totalExpendThisMonth;
     }
 
+    /**
+     * 月ごと総収入を算出メソッド。
+     * @param thisMonth 月
+     * @return 総収入
+     */
     public int getTotalIncomeThisMonth(String thisMonth){
         int totalIncomeThisMonth = 0;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -157,6 +164,10 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         return totalIncomeThisMonth;
     }
 
+    /**
+     * 記録した月を抽出
+     * @return
+     */
     public LinkedList<String> getAvailableMonth(){
         LinkedList<String> months = new LinkedList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -173,4 +184,101 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return months;
     }
+
+    /**
+     * カテゴリごと支出を算出するメソッド。
+     * @param year 年
+     * @param month　月
+     * @param category　カテゴリ
+     * @return このカテゴリの総支出
+     */
+    public int getTotalExpenseOfCategoryThisMonth(String year,String month,String category){
+        int totalExpense = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String date = DateUtil.getFormattedDate();
+        String firstDayOfMonth = year + "-" + month + "-01";
+        String lastDayOfMonth = year + "-" + month + "-31";
+        String sql = "SELECT SUM(amount) FROM Record WHERE date>=? AND date<=? AND type = 1 AND category = ?";
+        Cursor cursor = db.rawQuery(sql,new String[]{firstDayOfMonth,lastDayOfMonth,category});
+        if(cursor.moveToFirst()){
+            do{
+                totalExpense = cursor.getInt(0);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+//        db.close();
+        return totalExpense;
+    }
+
+    /**
+     * カテゴリごと収入を算出するメソッド。
+     * @param year 年
+     * @param month　月
+     * @param category　カテゴリ
+     * @return このカテゴリの総収入
+     */
+    public int getTotalIncomeOfCategoryThisMonth(String year,String month,String category){
+        int totalExpense = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String date = DateUtil.getFormattedDate();
+        String firstDayOfMonth = year + "-" + month + "-01";
+        String lastDayOfMonth = year + "-" + month + "-31";
+        String sql = "SELECT SUM(amount) FROM Record WHERE date>=? AND date<=? AND type = 2 AND category = ?";
+        Cursor cursor = db.rawQuery(sql,new String[]{firstDayOfMonth,lastDayOfMonth,category});
+        if(cursor.moveToFirst()){
+            do{
+                totalExpense = cursor.getInt(0);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+//        db.close();
+
+        return totalExpense;
+    }
+
+    /**
+     * 月ごと記入された支出のカテゴリを抽出するメソッド。
+     * @param year 年
+     * @param month 月
+     * @return カテゴリのLinkedList
+     */
+    public LinkedList<String> getInputtedCategories(String year,String month,String type){
+        LinkedList<String> inputtedCategories = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String firstDayOfMonth = year + "-" + month + "-01";
+        String lastDayOfMonth = year + "-" + month + "-31";
+
+        String sql = "SELECT DISTINCT category FROM Record WHERE date >= ? AND date <= ? AND type = ?";
+        Cursor cursor = db.rawQuery(sql,new String[]{firstDayOfMonth,lastDayOfMonth,type});
+        if (cursor.moveToFirst()){
+            do {
+                String category = cursor.getString(cursor.getColumnIndex("category"));
+                if(!inputtedCategories.contains(category)){
+                    inputtedCategories.add(category);
+                }
+            }while(cursor.moveToNext());
+        }
+
+        return inputtedCategories;
+    }
+
+    /**
+     * 現時点の年を取得するメソッド。
+     * @return this year
+     */
+    public String getThisYear(){
+        String date = DateUtil.getFormattedDate();
+        return date.split("-")[0];
+    }
+
+    /**
+     * 現時点の月を取得するメソッド。
+     * @return this month
+     */
+    public String getThisMonth(){
+        String date = DateUtil.getFormattedDate();
+        return date.split("-")[1];
+    }
+
+
 }
