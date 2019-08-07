@@ -16,7 +16,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private LinkedList<CategoryResBean> cellList = GlobalUtil.getInstance().costRes;
+    private LinkedList<CategoryResBean> cellList;
 
     public String getSelected() {
         return selected;
@@ -34,7 +34,14 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
     public CategoryRecyclerAdapter(Context context){
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
+        cellList = GlobalUtil.getInstance().costRes;
+        if (cellList.size() > 20){
+            cellList.clear();
+            GlobalUtil.getInstance().addRes();
+            cellList  = GlobalUtil.getInstance().costRes;
+        }
         selected = cellList.get(0).title;
+
     }
     @NonNull
     @Override
@@ -73,8 +80,18 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
     public void changeType(RecordBean.RecordType type){
         if(type == RecordBean.RecordType.RECORD_TYPE_EXPENSE){
             cellList = GlobalUtil.getInstance().costRes;
+            if (cellList.size() > 20){
+                cellList.clear();
+                GlobalUtil.getInstance().addRes();
+                cellList  = GlobalUtil.getInstance().costRes;
+            }
         }else{
-            cellList =GlobalUtil.getInstance().earnRes;
+            cellList = GlobalUtil.getInstance().earnRes;
+            if (cellList.size() > 7){
+                cellList.clear();
+                GlobalUtil.getInstance().addRes();
+                cellList  = GlobalUtil.getInstance().earnRes;
+            }
         }
         selected = cellList.get(0).title;
         notifyDataSetChanged();
@@ -89,6 +106,8 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryViewHo
         void onClick(String category);
     }
 }
+
+
 class CategoryViewHolder extends RecyclerView.ViewHolder{
 
     RelativeLayout background;

@@ -108,6 +108,10 @@ public class GlobalUtil {
     public void setContext(Context context) {
         this.context = context;
         databaseHelper = new RecordDatabaseHelper(context,RecordDatabaseHelper.DB_NAME,null,1);
+        addRes();
+    }
+
+    public void addRes(){
         for (int i=0;i<costTitle.length;i++){
             CategoryResBean res = new CategoryResBean();
             res.title = costTitle[i];

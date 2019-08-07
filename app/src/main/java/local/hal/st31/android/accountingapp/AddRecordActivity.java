@@ -1,7 +1,5 @@
 package local.hal.st31.android.accountingapp;
 
-import android.content.Intent;
-import android.icu.util.LocaleData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,6 +34,24 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_add_record);
         //去阴影
 //        getSupportActionBar().setElevation(0);
+
+        handleListener();
+        handleView();
+        handleTypeChange();
+        handleBackspace();
+        handleDone();
+        handleClear();
+
+//      編集するかどうかを判定
+        RecordBean record = (RecordBean) getIntent().getSerializableExtra("record");
+        if(record != null){
+//            Log.d("PXLL", "onCreate: getIntent: " + record.getRemark());
+            editTag = true;
+            this.record = record;
+        }
+    }
+
+    private void handleListener(){
         findViewById(R.id.keyboard_one).setOnClickListener(this);
         findViewById(R.id.keyboard_two).setOnClickListener(this);
         findViewById(R.id.keyboard_three).setOnClickListener(this);
@@ -47,19 +63,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.keyboard_nine).setOnClickListener(this);
         findViewById(R.id.keyboard_zero).setOnClickListener(this);
 
-        handleView();
-        handleDot();
-        handleTypeChange();
-        handleBackspace();
-        handleDone();
-        handleClear();
-
-        //編集するかどうかを判定
-        RecordBean record = (RecordBean) getIntent().getSerializableExtra("record");
-        if(record != null){
-            editTag = true;
-            this.record = record;
-        }
     }
 
     private void handleView(){
@@ -75,19 +78,6 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerAdapter.notifyDataSetChanged();
         recyclerAdapter.setOnCategoryClickListener(this);
-    }
-
-    private void handleDot(){
-        findViewById(R.id.keyboard_dot).setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-
-                if(!userInput.contains(".")){
-                    userInput += ".";
-                }
-            }
-        });
     }
 
     private void handleClear(){
@@ -121,11 +111,8 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onClick(View v) {
-                if (userInput.length() > 0) {
-                    userInput = userInput.substring(0, userInput.length() - 1);
-                }
-                if (userInput.length() > 0 && userInput.charAt(userInput.length() - 1) == '.') {
-                    userInput = userInput.substring(0, userInput.length() - 1);
+                if(userInput.length() > 0){
+                    userInput= userInput.substring(0,userInput.length()-1);
                 }
                 updateAmountText();
             }
@@ -150,7 +137,7 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
                     }
 
                     if(editTag == true){
-                        GlobalUtil.getInstance().databaseHelper.editRecord(record.getUuid(),record);
+                        GlobalUtil.getInstance().databaseHelper.editRecord(record.getUuid(), record);
                     }
                     else{
                         GlobalUtil.getInstance().databaseHelper.addRecord(record);
@@ -169,30 +156,21 @@ public class AddRecordActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         Button button = (Button) v;
         String input = button.getText().toString();
-        if(userInput.contains(".")){
-            if(userInput.split("\\.").length ==1 || userInput.split("\\.")[1].length() < 2){
-                userInput += input;
-            }
-        }else{
-            userInput += input;
+        userInput += input;
+        int integerLength = 0;
+        integerLength = userInput.length();
+        if (integerLength > 7){
+            Toast.makeText(getApplicationContext(), "多すぎるでしょう", Toast.LENGTH_SHORT).show();
+            userInput = amountText.getText().toString();
         }
+
         updateAmountText();
     }
     private void updateAmountText() {
-        if (userInput.contains(".")) {
-            if (userInput.split("\\.").length == 1) {
-                amountText.setText(userInput + "00");
-            } else if (userInput.split("\\.")[1].length() == 1) {
-                amountText.setText(userInput + "0");
-            } else if (userInput.split("\\.")[1].length() == 2) {
-                amountText.setText(userInput);
-            }
+        if (userInput.equals("")) {
+            amountText.setText("0");
         } else {
-            if (userInput.equals("")) {
-                amountText.setText("0.00");
-            } else {
-                amountText.setText(userInput + ".00");
-            }
+            amountText.setText(userInput);
         }
     }
 

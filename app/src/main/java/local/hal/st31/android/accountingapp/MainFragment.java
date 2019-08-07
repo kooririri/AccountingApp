@@ -23,6 +23,7 @@ import java.util.LinkedList;
 @SuppressLint("ValidFragment")
 public class MainFragment extends Fragment implements AdapterView.OnItemLongClickListener {
 
+
     private View rootView;
     private TextView textView;
     private ListView listView;
@@ -119,9 +120,18 @@ public class MainFragment extends Fragment implements AdapterView.OnItemLongClic
                     intent.putExtras(extra);
                     startActivityForResult(intent,1);
                 }
+
             }
         });
         builder.setNegativeButton("Cancel",null);
         builder.create().show();
+    }
+    //編集する後リフレッシュで、すぐ表示できるように。じゃないと、編集前のデータを表示する。
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            GlobalUtil.getInstance().mainActivity.refreshSelf();
+        }
     }
 }
